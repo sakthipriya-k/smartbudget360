@@ -1,0 +1,94 @@
+<!-- dashboard.html --><!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartBudget360 - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100">
+    <!-- Main Layout -->
+    <div class="grid grid-cols-6 min-h-screen"><!-- Sidebar -->
+    <aside class="col-span-1 bg-white shadow-md px-4 py-6 space-y-5">
+        <h2 class="text-2xl font-bold text-blue-600 mb-6">SmartBudget360</h2>
+        <nav class="flex flex-col space-y-2">
+            <a href="/dashboard" class="text-gray-700 hover:text-blue-600">📊 Dashboard</a>
+            <a href="/add-expense" class="text-gray-700 hover:text-blue-600">➕ Add Expense</a>
+            <a href="/upload-bill" class="text-gray-700 hover:text-blue-600">📷 Upload Bill</a>
+            <a href="/expenses" class="text-gray-700 hover:text-blue-600">📋 View Expenses</a>
+            <a href="/settings" class="text-gray-700 hover:text-blue-600">⚙ Profile</a>
+            <a href="/logout" class="text-red-600 hover:underline">🚪 Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="col-span-5 p-8">
+        <header class="mb-10">
+            <h1 class="text-3xl font-semibold">Welcome, {{ request.user.first_name }}</h1>
+        </header>
+
+        <!-- Grid for cards and chart -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Summary Cards -->
+            <div class="space-y-6">
+                <div class="bg-green-100 p-6 rounded-xl shadow">
+                    <h3 class="text-lg font-medium text-gray-800">Monthly Income</h3>
+                    <p class="text-2xl font-bold text-green-700 mt-2">₹{{ income }}</p>
+                </div>
+                <div class="bg-yellow-100 p-6 rounded-xl shadow">
+                    <h3 class="text-lg font-medium text-gray-800">Remaining Expense</h3>
+                    <p class="text-2xl font-bold text-yellow-700 mt-2">₹{{ expense }}</p>
+                </div>
+                <div class="bg-red-100 p-6 rounded-xl shadow">
+                    <h3 class="text-lg font-medium text-gray-800">Expense Limit</h3>
+                    <p class="text-2xl font-bold text-red-700 mt-2">₹{{ limit }}</p>
+                </div>
+
+                {% if warning %}
+                    <div class="bg-red-200 text-red-800 font-medium p-4 rounded">
+                        {{ warning }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Chart -->
+            <div class="bg-white p-6 rounded-xl shadow">
+                <h2 class="text-xl font-semibold mb-4 text-center">Monthly Summary</h2>
+                <canvas id="summaryChart" height="200"></canvas>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Chart Script -->
+<script>
+    const ctx = document.getElementById('summaryChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ labels|safe }},
+            datasets: [
+                {
+                    label: 'Income',
+                    data: {{ income_list|safe }},
+                    backgroundColor: 'rgba(34, 197, 94, 0.6)'
+                },
+                {
+                    label: 'Expense',
+                    data: {{ expense_list|safe }},
+                    backgroundColor: 'rgba(239, 68, 68, 0.6)'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

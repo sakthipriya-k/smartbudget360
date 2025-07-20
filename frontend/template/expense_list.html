@@ -1,0 +1,56 @@
+<!-- expense_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Expense List - SmartBudget360</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="grid grid-cols-6 min-h-screen">
+
+        <!-- Sidebar -->
+        <aside class="col-span-1 bg-white shadow-md px-4 py-6 space-y-5">
+            <h2 class="text-2xl font-bold text-blue-600 mb-6">SmartBudget360</h2>
+            <nav class="flex flex-col space-y-2">
+                <a href="/dashboard" class="text-gray-700 hover:text-blue-600">📊 Dashboard</a>
+                <a href="/add-expense" class="text-gray-700 hover:text-blue-600">➕ Add Expense</a>
+                <a href="/upload-bill" class="text-gray-700 hover:text-blue-600">📷 Upload Bill</a>
+                <a href="/expenses" class="text-blue-600 font-semibold">📋 View Expenses</a>
+                <a href="/settings" class="text-gray-700 hover:text-blue-600">⚙️ Profile</a>
+                <a href="/logout" class="text-red-600 hover:underline">🚪 Logout</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="col-span-5 p-8">
+            <h1 class="text-3xl font-semibold mb-6">📋 Your Expenses</h1>
+
+            {% if expenses %}
+                <div class="bg-white p-6 rounded-xl shadow">
+                    <table class="w-full table-auto">
+                        <thead>
+                            <tr class="bg-gray-200 text-left">
+                                <th class="p-3">Date</th>
+                                <th class="p-3">Category</th>
+                                <th class="p-3">Amount (₹)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for exp in expenses %}
+                                <tr class="border-t">
+                                    <td class="p-3">{{ exp.date }}</td>
+                                    <td class="p-3">{{ exp.category }}</td>
+                                    <td class="p-3">{{ exp.amount }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p>No expenses recorded yet.</p>
+            {% endif %}
+        </main>
+    </div>
+</body>
+</html>

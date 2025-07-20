@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Expense</title>
+</head>
+<body>
+    <h2>Add Expense</h2>
+
+    <!-- Form 1: Manual Expense -->
+    <h3>➕ Add Manually</h3>
+    <form method="post" action="{% url 'add_expense' %}">
+        {% csrf_token %}
+        <label>Amount:</label>
+        <input type="number" name="amount" required><br>
+        <label>Category:</label>
+        <select name="category">
+            <option>EMI</option>
+            <option>Shopping</option>
+            <option>Groceries</option>
+            <option>Electricity Bill</option>
+            <option>Gas Bill</option>
+            <option>Internet</option>
+            <option>Others</option>
+        </select><br>
+        <button type="submit">Add Expense</button>
+    </form>
+
+    <hr>
+
+    <!-- Form 2: Upload Bill -->
+    <h3>📤 Upload Bill Image</h3>
+    <form method="post" enctype="multipart/form-data" action="{% url 'upload_bill' %}">
+        {% csrf_token %}
+        <input type="file" name="bill_image" required>
+        <button type="submit">Upload and Detect</button>
+    </form>
+
+    <hr>
+
+    <!-- Expense Table -->
+    <h3>Your Expenses</h3>
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Category</th>
+        </tr>
+        {% for expense in expenses %}
+        <tr>
+            <td>{{ expense.date }}</td>
+            <td>₹{{ expense.amount }}</td>
+            <td>{{ expense.category }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <a href="{% url 'dashboard' %}">← Back to Dashboard</a>
+</body>
+</html>

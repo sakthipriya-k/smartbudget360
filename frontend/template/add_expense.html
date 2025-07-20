@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Expense</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 50px;
+        }
+        .form-box {
+            width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-box">
+        <h2>Add Your Expense</h2>
+        <form method="post">
+            {% csrf_token %}
+            
+            <!-- Select a category -->
+            <label>Select Category:</label>
+            <select name="category" required>
+                <option value="">-- Choose --</option>
+                <option value="EMI">EMI</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Groceries">Groceries</option>
+                <option value="Electricity Bill">Electricity Bill</option>
+                <option value="Gas Bill">Gas Bill</option>
+                <option value="Water Bill">Water Bill</option>
+                <option value="Mobile Recharge">Mobile Recharge</option>
+                <option value="Medical">Medical</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <!-- Amount -->
+            <label>Amount Spent:</label>
+            <input type="number" name="amount" placeholder="Enter amount in ₹" required>
+
+            <!-- Submit Button -->
+            <button type="submit">Add Expense</button>
+        </form>
+    </div>
+
+</body>
+</html>
